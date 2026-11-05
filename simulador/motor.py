@@ -74,7 +74,9 @@ class Simulador:
                 p.estado = EJECUCION
                 if p.inicio is None:                # primer inicio (T_inicio)
                     p.inicio = t
-                ini.append(f"{p.pid} despachado (Listo -> Ejecución)")
+                prio = (f" [prioridad={p.prioridad}]"
+                        if self.planificador.muestra_prioridad else "")
+                ini.append(f"{p.pid} despachado (Listo -> Ejecución){prio}")
                 self.cpu = p
                 self.uso_quantum = 0
 

@@ -2,17 +2,16 @@
 
 Simulador por consola en Python 3 (solo biblioteca estándar).
 Algoritmos disponibles: **FIFO**, **SJF** (no apropiativo), **SRTF** (apropiativo) y
-**Round Robin**. El algoritmo de **prioridades** sigue pendiente de integración
-(ver [Estado](#estado-de-la-integración)). Incluye el estado **Bloqueado** por eventos de E/S.
+**Round Robin** y **prioridades apropiativo**. Incluye el estado **Bloqueado** por eventos de E/S.
 
 ## Integrantes
 
 | Integrante | Responsabilidad |
 |---|---|
-| Benjamin Zamora (motor) | Arquitectura, motor de simulación, integración |
+| Benjamin Zamora | Arquitectura, motor de simulación, integración |
 | José Luna | Round Robin (`simulador/algoritmos/round_robin.py`) |
 | Francisco | Algoritmo con prioridades (`simulador/algoritmos/prioridad.py`) |
-| Benja (menú) | Menú de consola (`simulador/consola.py`): procesos, quantum y última simulación |
+| Benjamin González | Menú de consola (`simulador/consola.py`): procesos, quantum y última simulación |
 | Thomas | Pruebas (`tests/`) |
 
 ## Ejecución
@@ -38,9 +37,9 @@ simulador/
     base.py                  # Planificador (interfaz)
     fifo.py  sjf.py  srtf.py
     round_robin.py           # Round Robin con quantum configurable (José Luna)
-    prioridad.py             # pendiente (Francisco)
+    prioridad.py             # prioridades apropiativo (Francisco)
     __init__.py              # registro ALGORITMOS
-tests/                       # regresión, motor, RR, consola RR y esqueleto de prioridades
+tests/                       # regresión, motor, RR, consola RR y prioridades
 ```
 
 ## Clases
@@ -139,8 +138,14 @@ print(Reportero.informe(sim))
 
 **Convención del equipo: el valor numérico MÁS ALTO es la MAYOR prioridad.**
 
-> Pendiente (Francisco). Debe documentar aquí: algoritmo elegido, apropiativo o no,
-> desempates, riesgo de inanición y uso de envejecimiento (si se implementa).
+- **Algoritmo:** planificación por prioridades **apropiativa** (`PlanificadorPrioridad`, menú opción 13).
+- **Criterio:** se despacha el proceso listo de mayor prioridad.
+- **Apropiación:** si llega o vuelve de E/S un proceso con prioridad **estrictamente mayor** que el de la CPU, este se expropia y vuelve a Listo. Con prioridad igual no expropia.
+- **Desempates:** llegada más temprana y luego menor identificador (orden natural, P2 < P10).
+- **Traza:** al despachar se muestra `[prioridad=N]` del proceso seleccionado.
+- **Inanición:** existe riesgo. Un proceso de baja prioridad puede esperar indefinidamente si siguen llegando procesos más prioritarios; en el caso de 10 procesos P5 (prioridad 1) espera 40 u.t.
+- **Envejecimiento:** no se implementó, para mantener el criterio puro y fácil de explicar. Una mitigación posible sería subir la prioridad de los procesos cada cierto tiempo en la cola de listos.
+- **Demostración vs FIFO:** con `cargar_caso_prioridades()` (menú 11 y luego 13) FIFO termina P1, P3, P4, P5... y prioridades termina P6, P2, P9, P4... (P2 se bloquea y vuelve a Listo expropiando por su prioridad).
 
 ## Casos predefinidos
 
@@ -173,14 +178,14 @@ Contrato del motor: `Simulador(especs, planificador).ejecutar()` y luego `Report
 - `tests/test_carga.py` y `tests/test_casos.py`: validación del ingreso de procesos y de los casos de 10 procesos.
 - `tests/test_round_robin.py`: validación del quantum, rotación, llegadas, E/S, métricas y casos límite de RR.
 - `tests/test_consola_rr.py`: carga, quantum, registro de procesos y última simulación del menú.
-- `tests/test_prioridad.py`: esqueleto omitido hasta integrar prioridades.
+- `tests/test_prioridad.py`: selección, desempates, apropiación, orden distinto a FIFO, bloqueo e inanición.
 
 ## Estado de la integración
 
 - [x] FIFO, SJF, SRTF
 - [x] Motor con quantum, espera corregida y prioridad en el modelo
 - [x] Round Robin (algoritmo, registro, menú con quantum configurable y pruebas)
-- [ ] Prioridades
+- [x] Prioridades (algoritmo apropiativo, registro, menú y pruebas)
 - [x] Menú: registrar procesos y configurar el quantum de Round Robin
 - [x] Menú: ver última simulación
 

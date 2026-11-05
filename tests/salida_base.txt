@@ -10,22 +10,25 @@
  8. Registrar proceso
  9. Configurar quantum de Round Robin (actual: 4)
  10. Ver última simulación
+ 11. Cargar caso de prioridades (10 procesos, mayor valor = mayor prioridad)
+ 12. Ayuda: lenguaje e instrucciones de uso
+ 13. Ejecutar simulación por Prioridades (apropiativa)
  0. Salir
 
 Seleccione una opción: Caso predefinido cargado.
 
-ID     Llegada  Ráfaga   Evento E/S
-----------------------------------------------
-P1           0       8   -
-P2           1       4   -
-P3           2       9   tras 3 u. de CPU bloquea 4 u.
-P4           3       5   -
-P5           4       2   -
-P6           5       6   -
-P7           6       3   -
-P8           7       7   -
-P9           8       1   -
-P10          9       4   -
+ID     Llegada  Ráfaga  Prioridad   Evento E/S
+---------------------------------------------------------
+P1           0       8          0   -
+P2           1       4          0   -
+P3           2       9          0   tras 3 u. de CPU bloquea 4 u.
+P4           3       5          0   -
+P5           4       2          0   -
+P6           5       6          0   -
+P7           6       3          0   -
+P8           7       7          0   -
+P9           8       1          0   -
+P10          9       4          0   -
 
  SIMULADOR DE PLANIFICACIÓN DE CPU 
  1. Cargar caso de prueba predefinido (10 procesos + bloqueo)
@@ -38,6 +41,9 @@ P10          9       4   -
  8. Registrar proceso
  9. Configurar quantum de Round Robin (actual: 4)
  10. Ver última simulación
+ 11. Cargar caso de prioridades (10 procesos, mayor valor = mayor prioridad)
+ 12. Ayuda: lenguaje e instrucciones de uso
+ 13. Ejecutar simulación por Prioridades (apropiativa)
  0. Salir
 
 Seleccione una opción: === TRAZA DE SIMULACIÓN: FIFO ===
@@ -214,6 +220,9 @@ Nota: Espera = tiempo acumulado en la cola de Listos; el tiempo Bloqueado NO cue
  8. Registrar proceso
  9. Configurar quantum de Round Robin (actual: 4)
  10. Ver última simulación
+ 11. Cargar caso de prioridades (10 procesos, mayor valor = mayor prioridad)
+ 12. Ayuda: lenguaje e instrucciones de uso
+ 13. Ejecutar simulación por Prioridades (apropiativa)
  0. Salir
 
 Seleccione una opción: === TRAZA DE SIMULACIÓN: SJF ===
@@ -396,6 +405,9 @@ Nota: Espera = tiempo acumulado en la cola de Listos; el tiempo Bloqueado NO cue
  8. Registrar proceso
  9. Configurar quantum de Round Robin (actual: 4)
  10. Ver última simulación
+ 11. Cargar caso de prioridades (10 procesos, mayor valor = mayor prioridad)
+ 12. Ayuda: lenguaje e instrucciones de uso
+ 13. Ejecutar simulación por Prioridades (apropiativa)
  0. Salir
 
 Seleccione una opción: === TRAZA DE SIMULACIÓN: SRTF ===
@@ -577,6 +589,9 @@ Nota: Espera = tiempo acumulado en la cola de Listos; el tiempo Bloqueado NO cue
  8. Registrar proceso
  9. Configurar quantum de Round Robin (actual: 4)
  10. Ver última simulación
+ 11. Cargar caso de prioridades (10 procesos, mayor valor = mayor prioridad)
+ 12. Ayuda: lenguaje e instrucciones de uso
+ 13. Ejecutar simulación por Prioridades (apropiativa)
  0. Salir
 
 Seleccione una opción: Fin del programa.

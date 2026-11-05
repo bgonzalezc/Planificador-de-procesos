@@ -85,13 +85,30 @@ class PruebasConsolaRoundRobin(unittest.TestCase):
         self.assertIn("Fin del programa.", texto)
 
     def test_menu_registra_proceso(self):
-        with patch("builtins.input", side_effect=["8", "P1", "0", "5", "0"]), \
+        with patch("builtins.input", side_effect=["8", "P1", "0", "5", "", "n", "0"]), \
                 redirect_stdout(self.salida):
             self.app.ejecutar()
         self.assertEqual(len(self.app.carga.especs), 1)
         proceso = self.app.carga.especs[0]
         self.assertEqual((proceso.pid, proceso.llegada, proceso.rafaga), ("P1", 0, 5))
         self.assertIn("Proceso P1 registrado.", self.salida.getvalue())
+
+    def test_menu_registra_proceso_con_prioridad_y_es(self):
+        entradas = ["8", "P1", "0", "5", "7", "s", "2", "3", "n", "0"]
+        with patch("builtins.input", side_effect=entradas), redirect_stdout(self.salida):
+            self.app.ejecutar()
+        espec = self.app.carga.especs[0]
+        self.assertEqual(espec.prioridad, 7)
+        self.assertEqual(espec.eventos_es, ((2, 3),))
+
+    def test_menu_carga_prioridades_y_muestra_ayuda(self):
+        with patch("builtins.input", side_effect=["11", "12", "0"]), \
+                redirect_stdout(self.salida):
+            self.app.ejecutar()
+        texto = self.salida.getvalue()
+        self.assertEqual(len(self.app.carga.especs), 10)
+        self.assertIn("Prioridad", texto)
+        self.assertIn("Python 3", texto)
 
     def test_configurar_quantum_persistente_en_el_menu(self):
         with patch("builtins.input", side_effect=["9", "3", "7", "6", "", "0"]), \

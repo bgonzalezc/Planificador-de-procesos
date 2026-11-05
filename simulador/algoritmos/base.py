@@ -8,6 +8,7 @@ from ..modelos import Proceso
 class Planificador(ABC):
     nombre = ""
     apropiativo = False
+    muestra_prioridad = False           # True: la traza indica la prioridad al despachar
     quantum: Optional[int] = None       # None = sin límite de quantum (Round Robin lo define)
 
     @abstractmethod
