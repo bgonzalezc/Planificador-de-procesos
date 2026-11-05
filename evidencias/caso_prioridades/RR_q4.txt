@@ -1,0 +1,164 @@
+Caso prioridades (1..10, mayor valor = mayor prioridad), P2 se bloquea - RR_q4
+
+=== TRAZA DE SIMULACIÓN: RR ===
+t=  0 -> 1   | CPU: P1 (restante=5)
+            | Listos: []   Bloqueados: []
+            | Eventos al inicio: P1 llega (Nuevo -> Listo); P1 despachado (Listo -> Ejecución)
+t=  1 -> 2   | CPU: P1 (restante=4)
+            | Listos: [P2]   Bloqueados: []
+            | Eventos al inicio: P2 llega (Nuevo -> Listo)
+t=  2 -> 3   | CPU: P1 (restante=3)
+            | Listos: [P2, P3]   Bloqueados: []
+            | Eventos al inicio: P3 llega (Nuevo -> Listo)
+t=  3 -> 4   | CPU: P1 (restante=2)
+            | Listos: [P2, P3, P4, P5]   Bloqueados: []
+            | Eventos al inicio: P4 llega (Nuevo -> Listo); P5 llega (Nuevo -> Listo)
+t=  4 -> 5   | CPU: P2 (restante=3)
+            | Listos: [P3, P4, P5, P1]   Bloqueados: []
+            | Eventos al inicio: P1 agota su quantum de 4 u. (Ejecución -> Listo), restante=2; P2 despachado (Listo -> Ejecución)
+t=  5 -> 6   | CPU: P2 (restante=2)
+            | Listos: [P3, P4, P5, P1, P6]   Bloqueados: []
+            | Eventos al inicio: P6 llega (Nuevo -> Listo)
+            | Eventos al final : P2 solicita E/S (Ejecución -> Bloqueado) por 3 u.; vuelve a Listo en t=9
+t=  6 -> 7   | CPU: P3 (restante=7)
+            | Listos: [P4, P5, P1, P6, P7]   Bloqueados: [P2(sale en t=9)]
+            | Eventos al inicio: P7 llega (Nuevo -> Listo); P3 despachado (Listo -> Ejecución)
+t=  7 -> 8   | CPU: P3 (restante=6)
+            | Listos: [P4, P5, P1, P6, P7]   Bloqueados: [P2(sale en t=9)]
+t=  8 -> 9   | CPU: P3 (restante=5)
+            | Listos: [P4, P5, P1, P6, P7, P8]   Bloqueados: [P2(sale en t=9)]
+            | Eventos al inicio: P8 llega (Nuevo -> Listo)
+t=  9 -> 10  | CPU: P3 (restante=4)
+            | Listos: [P4, P5, P1, P6, P7, P8, P2, P9]   Bloqueados: []
+            | Eventos al inicio: P9 llega (Nuevo -> Listo); P2 termina E/S (Bloqueado -> Listo)
+t= 10 -> 11  | CPU: P4 (restante=2)
+            | Listos: [P5, P1, P6, P7, P8, P2, P9, P10, P3]   Bloqueados: []
+            | Eventos al inicio: P10 llega (Nuevo -> Listo); P3 agota su quantum de 4 u. (Ejecución -> Listo), restante=4; P4 despachado (Listo -> Ejecución)
+t= 11 -> 12  | CPU: P4 (restante=1)
+            | Listos: [P5, P1, P6, P7, P8, P2, P9, P10, P3]   Bloqueados: []
+t= 12 -> 13  | CPU: P4 (restante=0)
+            | Listos: [P5, P1, P6, P7, P8, P2, P9, P10, P3]   Bloqueados: []
+            | Eventos al final : P4 finaliza (Ejecución -> Finalizado) en t=13
+t= 13 -> 14  | CPU: P5 (restante=4)
+            | Listos: [P1, P6, P7, P8, P2, P9, P10, P3]   Bloqueados: []
+            | Eventos al inicio: P5 despachado (Listo -> Ejecución)
+t= 14 -> 15  | CPU: P5 (restante=3)
+            | Listos: [P1, P6, P7, P8, P2, P9, P10, P3]   Bloqueados: []
+t= 15 -> 16  | CPU: P5 (restante=2)
+            | Listos: [P1, P6, P7, P8, P2, P9, P10, P3]   Bloqueados: []
+t= 16 -> 17  | CPU: P5 (restante=1)
+            | Listos: [P1, P6, P7, P8, P2, P9, P10, P3]   Bloqueados: []
+t= 17 -> 18  | CPU: P1 (restante=1)
+            | Listos: [P6, P7, P8, P2, P9, P10, P3, P5]   Bloqueados: []
+            | Eventos al inicio: P5 agota su quantum de 4 u. (Ejecución -> Listo), restante=1; P1 despachado (Listo -> Ejecución)
+t= 18 -> 19  | CPU: P1 (restante=0)
+            | Listos: [P6, P7, P8, P2, P9, P10, P3, P5]   Bloqueados: []
+            | Eventos al final : P1 finaliza (Ejecución -> Finalizado) en t=19
+t= 19 -> 20  | CPU: P6 (restante=1)
+            | Listos: [P7, P8, P2, P9, P10, P3, P5]   Bloqueados: []
+            | Eventos al inicio: P6 despachado (Listo -> Ejecución)
+t= 20 -> 21  | CPU: P6 (restante=0)
+            | Listos: [P7, P8, P2, P9, P10, P3, P5]   Bloqueados: []
+            | Eventos al final : P6 finaliza (Ejecución -> Finalizado) en t=21
+t= 21 -> 22  | CPU: P7 (restante=6)
+            | Listos: [P8, P2, P9, P10, P3, P5]   Bloqueados: []
+            | Eventos al inicio: P7 despachado (Listo -> Ejecución)
+t= 22 -> 23  | CPU: P7 (restante=5)
+            | Listos: [P8, P2, P9, P10, P3, P5]   Bloqueados: []
+t= 23 -> 24  | CPU: P7 (restante=4)
+            | Listos: [P8, P2, P9, P10, P3, P5]   Bloqueados: []
+t= 24 -> 25  | CPU: P7 (restante=3)
+            | Listos: [P8, P2, P9, P10, P3, P5]   Bloqueados: []
+t= 25 -> 26  | CPU: P8 (restante=3)
+            | Listos: [P2, P9, P10, P3, P5, P7]   Bloqueados: []
+            | Eventos al inicio: P7 agota su quantum de 4 u. (Ejecución -> Listo), restante=3; P8 despachado (Listo -> Ejecución)
+t= 26 -> 27  | CPU: P8 (restante=2)
+            | Listos: [P2, P9, P10, P3, P5, P7]   Bloqueados: []
+t= 27 -> 28  | CPU: P8 (restante=1)
+            | Listos: [P2, P9, P10, P3, P5, P7]   Bloqueados: []
+t= 28 -> 29  | CPU: P8 (restante=0)
+            | Listos: [P2, P9, P10, P3, P5, P7]   Bloqueados: []
+            | Eventos al final : P8 finaliza (Ejecución -> Finalizado) en t=29
+t= 29 -> 30  | CPU: P2 (restante=1)
+            | Listos: [P9, P10, P3, P5, P7]   Bloqueados: []
+            | Eventos al inicio: P2 despachado (Listo -> Ejecución)
+t= 30 -> 31  | CPU: P2 (restante=0)
+            | Listos: [P9, P10, P3, P5, P7]   Bloqueados: []
+            | Eventos al final : P2 finaliza (Ejecución -> Finalizado) en t=31
+t= 31 -> 32  | CPU: P9 (restante=5)
+            | Listos: [P10, P3, P5, P7]   Bloqueados: []
+            | Eventos al inicio: P9 despachado (Listo -> Ejecución)
+t= 32 -> 33  | CPU: P9 (restante=4)
+            | Listos: [P10, P3, P5, P7]   Bloqueados: []
+t= 33 -> 34  | CPU: P9 (restante=3)
+            | Listos: [P10, P3, P5, P7]   Bloqueados: []
+t= 34 -> 35  | CPU: P9 (restante=2)
+            | Listos: [P10, P3, P5, P7]   Bloqueados: []
+t= 35 -> 36  | CPU: P10 (restante=2)
+            | Listos: [P3, P5, P7, P9]   Bloqueados: []
+            | Eventos al inicio: P9 agota su quantum de 4 u. (Ejecución -> Listo), restante=2; P10 despachado (Listo -> Ejecución)
+t= 36 -> 37  | CPU: P10 (restante=1)
+            | Listos: [P3, P5, P7, P9]   Bloqueados: []
+t= 37 -> 38  | CPU: P10 (restante=0)
+            | Listos: [P3, P5, P7, P9]   Bloqueados: []
+            | Eventos al final : P10 finaliza (Ejecución -> Finalizado) en t=38
+t= 38 -> 39  | CPU: P3 (restante=3)
+            | Listos: [P5, P7, P9]   Bloqueados: []
+            | Eventos al inicio: P3 despachado (Listo -> Ejecución)
+t= 39 -> 40  | CPU: P3 (restante=2)
+            | Listos: [P5, P7, P9]   Bloqueados: []
+t= 40 -> 41  | CPU: P3 (restante=1)
+            | Listos: [P5, P7, P9]   Bloqueados: []
+t= 41 -> 42  | CPU: P3 (restante=0)
+            | Listos: [P5, P7, P9]   Bloqueados: []
+            | Eventos al final : P3 finaliza (Ejecución -> Finalizado) en t=42
+t= 42 -> 43  | CPU: P5 (restante=0)
+            | Listos: [P7, P9]   Bloqueados: []
+            | Eventos al inicio: P5 despachado (Listo -> Ejecución)
+            | Eventos al final : P5 finaliza (Ejecución -> Finalizado) en t=43
+t= 43 -> 44  | CPU: P7 (restante=2)
+            | Listos: [P9]   Bloqueados: []
+            | Eventos al inicio: P7 despachado (Listo -> Ejecución)
+t= 44 -> 45  | CPU: P7 (restante=1)
+            | Listos: [P9]   Bloqueados: []
+t= 45 -> 46  | CPU: P7 (restante=0)
+            | Listos: [P9]   Bloqueados: []
+            | Eventos al final : P7 finaliza (Ejecución -> Finalizado) en t=46
+t= 46 -> 47  | CPU: P9 (restante=1)
+            | Listos: []   Bloqueados: []
+            | Eventos al inicio: P9 despachado (Listo -> Ejecución)
+t= 47 -> 48  | CPU: P9 (restante=0)
+            | Listos: []   Bloqueados: []
+            | Eventos al final : P9 finaliza (Ejecución -> Finalizado) en t=48
+=== Todos los procesos finalizaron en t=48 ===
+
+ DIAGRAMA GANTT (RR)
++------------+------+------------+---------+------------+------+------+------------+
+|     P1     |  P2  |     P3     |    P4   |     P5     |  P1  |  P6  |     P7     |
++------------+------+------------+---------+------------+------+------+------------+
+0            4      6            10        13           17     19     21           25
++------------+------+------------+---------+------------+----+---------+------+
+|     P8     |  P2  |     P9     |   P10   |     P3     | P5 |    P7   |  P9  |
++------------+------+------------+---------+------------+----+---------+------+
+25           29     31           35        38           42   43        46     48
+
+TABLA DE RESULTADOS(RR)
+ID    Llegada  Ráfaga  Inicio   Fin  Espera  Retorno  Respuesta
+---------------------------------------------------------------
+P1          0       6       0    19      13       19          0
+P2          1       4       4    31      23       30          3
+P3          2       8       6    42      32       40          4
+P4          3       3      10    13       7       10          7
+P5          3       5      13    43      35       40         10
+P6          5       2      19    21      14       16         14
+P7          6       7      21    46      33       40         15
+P8          8       4      25    29      17       21         17
+P9          9       6      31    48      33       39         22
+P10        10       3      35    38      25       28         25
+
+PROMEDIOS GLOBALES
+Tiempo de Espera    promedio: 23.20
+Tiempo de Retorno   promedio: 28.30
+Tiempo de Respuesta promedio: 11.70
+
+Nota: Espera = tiempo acumulado en la cola de Listos; el tiempo Bloqueado NO cuenta como espera (Retorno = Ráfaga + Espera + Bloqueado).

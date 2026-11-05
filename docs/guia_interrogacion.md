@@ -47,7 +47,7 @@ Nuevo → Listo → Ejecución → Finalizado. Desde Ejecución también a Bloqu
 | SJF | Menor ráfaga total | No | llegada, ID |
 | SRTF | Menor tiempo restante | Sí | llegada, ID |
 | Round Robin | Cabeza de la cola, con quantum | Por tiempo | La cola |
-| Prioridades | Mayor valor de prioridad | Sí | llegada, ID |
+| Prioridades | Mayor valor de prioridad | No | llegada, ID |
 
 **SRTF vs SJF:** SJF compara la ráfaga total y nunca interrumpe. SRTF compara el restante y expropia si alguien en la cola tiene un restante *estrictamente menor*.
 
@@ -70,11 +70,11 @@ Nuevo → Listo → Ejecución → Finalizado. Desde Ejecución también a Bloqu
 
 ## 6. Prioridades
 
-- **Variante:** apropiativa. **Mayor valor = mayor prioridad.**
+- **Variante:** **no apropiativa**. **Mayor valor = mayor prioridad.**
 - **Desempate:** llegada más temprana y luego ID menor.
-- **Expropia solo con prioridad estrictamente mayor.** Con igual prioridad no, para evitar cambios de contexto inútiles.
+- **No expropia nunca:** aunque llegue un proceso más prioritario, espera a que la CPU quede libre (fin de ráfaga o bloqueo). Es más simple y sin cambios de contexto por prioridad; el costo es que uno urgente puede esperar a uno largo de baja prioridad.
 - **Muestra la prioridad:** la traza agrega `[prioridad=N]` al despachar (bandera `muestra_prioridad`).
-- **Distinto de FIFO:** en el caso de 10 procesos FIFO termina P1, P3, P4… y prioridades termina P6, P2, P9…
+- **Distinto de FIFO:** en el caso de 10 procesos FIFO termina P1, P3, P4… y prioridades termina P1, P6, P9, P2…
 
 **Inanición:** un proceso de baja prioridad puede no ejecutarse nunca si siguen llegando procesos más prioritarios. En el caso de ejemplo P5 (prioridad 1) espera 40 u.t.
 
@@ -85,7 +85,7 @@ Nuevo → Listo → Ejecución → Finalizado. Desde Ejecución también a Bloqu
 - **Caso base (`cargar_predefinida`):** 10 procesos, P3 se bloquea.
 - **Caso RR (`cargar_caso_rr`):** 10 procesos, P3 se bloquea; probar con quantum 3 y 4.
 - **Caso prioridades (`cargar_caso_prioridades`):** prioridades 1 a 10 todas distintas; P4 y P5 llegan juntos en t=3 (prueba el desempate por prioridad); P2 se bloquea.
-- Evidencias completas en `docs/evidencias.md`.
+- Evidencias completas en `evidencias/` (generadas con `python3 evidencias/generar_evidencias.py`).
 
 ## 8. Decisión de lenguaje y diseño
 
@@ -110,5 +110,5 @@ Nuevo → Listo → Ejecución → Finalizado. Desde Ejecución también a Bloqu
 1. Los 5 pasos del tick y por qué van en ese orden.
 2. Dónde se cuenta el quantum (motor) y dónde se elige (planificador).
 3. Cómo se calcula la espera y por qué excluye el bloqueo.
-4. Cuándo expropia SRTF y cuándo prioridades (estrictamente mayor).
+4. Cuándo expropia SRTF (restante estrictamente menor) y por qué prioridades no expropia.
 5. Ejecutar a mano el menú: opciones 7, 9, 6 y luego 11 y 13.

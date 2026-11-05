@@ -2,7 +2,7 @@
 
 Simulador por consola en Python 3 (solo biblioteca estándar).
 Algoritmos disponibles: **FIFO**, **SJF** (no apropiativo), **SRTF** (apropiativo) y
-**Round Robin** y **prioridades apropiativo**. Incluye el estado **Bloqueado** por eventos de E/S.
+**Round Robin** y **prioridades no apropiativo**. Incluye el estado **Bloqueado** por eventos de E/S.
 
 ## Integrantes
 
@@ -37,7 +37,7 @@ simulador/
     base.py                  # Planificador (interfaz)
     fifo.py  sjf.py  srtf.py
     round_robin.py           # Round Robin con quantum configurable (José Luna)
-    prioridad.py             # prioridades apropiativo (Francisco)
+    prioridad.py             # prioridades no apropiativo (Francisco)
     __init__.py              # registro ALGORITMOS
 tests/                       # regresión, motor, RR, consola RR y prioridades
 ```
@@ -66,7 +66,7 @@ Nuevo -> Listo -> Ejecución -> Finalizado
                     |   ^
                     v   |
                  Bloqueado        (E/S: vuelve a Listo al terminar)
-Ejecución -> Listo                (expropiado por SRTF/prioridad o por fin de quantum)
+Ejecución -> Listo                (expropiado por SRTF o por fin de quantum)
 ```
 
 Cada unidad de tiempo (tick) el motor hace, en este orden:
@@ -138,14 +138,14 @@ print(Reportero.informe(sim))
 
 **Convención del equipo: el valor numérico MÁS ALTO es la MAYOR prioridad.**
 
-- **Algoritmo:** planificación por prioridades **apropiativa** (`PlanificadorPrioridad`, menú opción 13).
+- **Algoritmo:** planificación por prioridades **no apropiativa** (`PlanificadorPrioridad`, menú opción 13).
 - **Criterio:** se despacha el proceso listo de mayor prioridad.
-- **Apropiación:** si llega o vuelve de E/S un proceso con prioridad **estrictamente mayor** que el de la CPU, este se expropia y vuelve a Listo. Con prioridad igual no expropia.
+- **Apropiación:** ninguna. Un proceso en CPU nunca es expropiado, aunque llegue otro de mayor prioridad. La prioridad solo decide quién se despacha cuando la CPU queda libre (por fin de ráfaga o por bloqueo).
 - **Desempates:** llegada más temprana y luego menor identificador (orden natural, P2 < P10).
 - **Traza:** al despachar se muestra `[prioridad=N]` del proceso seleccionado.
-- **Inanición:** existe riesgo. Un proceso de baja prioridad puede esperar indefinidamente si siguen llegando procesos más prioritarios; en el caso de 10 procesos P5 (prioridad 1) espera 40 u.t.
+- **Inanición:** existe riesgo. Un proceso de baja prioridad puede esperar indefinidamente si siguen llegando procesos más prioritarios; en el caso de 10 procesos P5 (prioridad 1) espera 40 u.t. Al ser no apropiativo, además, uno de prioridad alta puede esperar a que termine uno largo de prioridad baja.
 - **Envejecimiento:** no se implementó, para mantener el criterio puro y fácil de explicar. Una mitigación posible sería subir la prioridad de los procesos cada cierto tiempo en la cola de listos.
-- **Demostración vs FIFO:** con `cargar_caso_prioridades()` (menú 11 y luego 13) FIFO termina P1, P3, P4, P5... y prioridades termina P6, P2, P9, P4... (P2 se bloquea y vuelve a Listo expropiando por su prioridad).
+- **Demostración vs FIFO:** con `cargar_caso_prioridades()` (menú 11 y luego 13) FIFO termina P1, P3, P4, P5... y prioridades termina P1, P6, P9, P2, P4, P10... (P2 se bloquea y, al volver a Listos, compite por su prioridad).
 
 ## Casos predefinidos
 
@@ -163,7 +163,7 @@ También se pueden ingresar procesos a mano con `CargaTrabajo.agregar(...)`.
 
 1. Crear la clase en `simulador/algoritmos/` heredando de `Planificador`:
    - `seleccionar(listos)` devuelve el próximo proceso de la cola.
-   - `apropiativo = True` y `debe_expropiar(en_ejecucion, listos)` si expropia por prioridad o tiempo restante.
+   - `apropiativo = True` y `debe_expropiar(en_ejecucion, listos)` si expropia por tiempo restante (SRTF).
    - `quantum` para Round Robin.
 2. Registrarla en `ALGORITMOS` (`simulador/algoritmos/__init__.py`).
 3. Conectarla en el menú (`simulador/consola.py`).
@@ -178,18 +178,19 @@ Contrato del motor: `Simulador(especs, planificador).ejecutar()` y luego `Report
 - `tests/test_carga.py` y `tests/test_casos.py`: validación del ingreso de procesos y de los casos de 10 procesos.
 - `tests/test_round_robin.py`: validación del quantum, rotación, llegadas, E/S, métricas y casos límite de RR.
 - `tests/test_consola_rr.py`: carga, quantum, registro de procesos y última simulación del menú.
-- `tests/test_prioridad.py`: selección, desempates, apropiación, orden distinto a FIFO, bloqueo e inanición.
+- `tests/test_prioridad.py`: contrato, desempates, orden distinto a FIFO, bloqueo y métricas (resultados calculados a mano, por Thomas).
+- `tests/test_invariantes.py`: propiedades que cumplen todos los algoritmos registrados (por Thomas).
 
 ## Evidencias
 
-`docs/evidencias.md` contiene, para cada algoritmo, el Gantt, la tabla de resultados y los promedios: FIFO, SJF y SRTF (caso base), Round Robin con quantum 3 y 4 (caso de 10 procesos), prioridades y FIFO sobre el caso de prioridades (comparación), con el bloqueo que vuelve a Listos.
+`evidencias/` contiene, para los tres casos de 10 procesos, un archivo por algoritmo (FIFO, SJF, SRTF, RR con quantum 3 y 4, y prioridades) con la traza, el Gantt, la tabla y los promedios, más `evidencias/resumen.md` con la comparación y el bloqueo que vuelve a Listos. Se regeneran con `python3 evidencias/generar_evidencias.py`.
 
 ## Estado de la integración
 
 - [x] FIFO, SJF, SRTF
 - [x] Motor con quantum, espera corregida y prioridad en el modelo
 - [x] Round Robin (algoritmo, registro, menú con quantum configurable y pruebas)
-- [x] Prioridades (algoritmo apropiativo, registro, menú y pruebas)
+- [x] Prioridades (algoritmo no apropiativo, registro, menú y pruebas)
 - [x] Menú: registrar procesos y configurar el quantum de Round Robin
 - [x] Menú: ver última simulación
 

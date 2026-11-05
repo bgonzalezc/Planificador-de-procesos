@@ -1,8 +1,9 @@
-"""Planificación por prioridades APROPIATIVA.
+"""Planificación por prioridades NO APROPIATIVA.
 
 Criterio: MAYOR valor numérico de `prioridad` = MAYOR prioridad.
 Desempate: llegada más temprana y luego menor identificador (natural: P2 < P10).
-Expropia solo si en la cola hay un proceso de prioridad ESTRICTAMENTE mayor.
+Un proceso en CPU nunca es expropiado: la prioridad solo decide quién es el próximo
+despachado cuando la CPU queda libre (por fin de ráfaga o bloqueo).
 Sin envejecimiento: ver README (riesgo de inanición).
 """
 from typing import List
@@ -14,7 +15,6 @@ from .base import Planificador
 
 class PlanificadorPrioridad(Planificador):
     nombre = "PRIORIDAD"
-    apropiativo = True
     muestra_prioridad = True
 
     @staticmethod
@@ -23,6 +23,3 @@ class PlanificadorPrioridad(Planificador):
 
     def seleccionar(self, listos: List[Proceso]) -> Proceso:
         return min(listos, key=self._clave)
-
-    def debe_expropiar(self, en_ejecucion: Proceso, listos: List[Proceso]) -> bool:
-        return self.seleccionar(listos).prioridad > en_ejecucion.prioridad
