@@ -180,6 +180,10 @@ Contrato del motor: `Simulador(especs, planificador).ejecutar()` y luego `Report
 - `tests/test_consola_rr.py`: carga, quantum, registro de procesos y última simulación del menú.
 - `tests/test_prioridad.py`: selección, desempates, apropiación, orden distinto a FIFO, bloqueo e inanición.
 
+## Evidencias
+
+`docs/evidencias.md` contiene, para cada algoritmo, el Gantt, la tabla de resultados y los promedios: FIFO, SJF y SRTF (caso base), Round Robin con quantum 3 y 4 (caso de 10 procesos), prioridades y FIFO sobre el caso de prioridades (comparación), con el bloqueo que vuelve a Listos.
+
 ## Estado de la integración
 
 - [x] FIFO, SJF, SRTF

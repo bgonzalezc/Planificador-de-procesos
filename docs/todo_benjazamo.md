@@ -18,6 +18,6 @@
 
 4. Validación final
 - [ ] Revisar las pruebas de Thomas: Corregir los fallos del motor y de integración que detecten las pruebas.
-- [ ] Validar los cinco algoritmos: Comprobar FIFO, SJF, SRTF, RR y prioridades con casos conocidos.
+- [x] Validar los cinco algoritmos: Comprobar FIFO, SJF, SRTF, RR y prioridades con casos conocidos.
 - [ ] Revisar y aprobar los pull requests: Integrar los cambios verificados en la rama principal.
 - [ ] Preparar tu explicación técnica: Dominar el motor, las estructuras, los estados, las métricas y las decisiones de diseño.
