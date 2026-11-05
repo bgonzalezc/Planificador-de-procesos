@@ -13,11 +13,11 @@
 3. Integrar los trabajos de tus compañeros
 - [x] Integrar Round Robin de José Luna: Algoritmo registrado, menú con quantum configurable y pruebas de rotación, llegadas, E/S y métricas.
 - [x] Integrar prioridades de Francisco: Conectar su planificador y verificar selección y desempates.
-- [ ] Integrar el menú del otro Benja: Conectar los cinco algoritmos, ingreso de procesos y visualización de resultados.
-- [ ] Resolver errores de integración: Revisar imports, interfaces, estados compartidos y posibles regresiones.
+- [x] Integrar el menú del otro Benja: Conectar los cinco algoritmos, ingreso de procesos y visualización de resultados.
+- [x] Resolver errores de integración: Revisar imports, interfaces, estados compartidos y posibles regresiones.
 
 4. Validación final
-- [ ] Revisar las pruebas de Thomas: Corregir los fallos del motor y de integración que detecten las pruebas.
+- [x] Revisar las pruebas de Thomas: Corregir los fallos del motor y de integración que detecten las pruebas.
 - [x] Validar los cinco algoritmos: Comprobar FIFO, SJF, SRTF, RR y prioridades con casos conocidos.
 - [ ] Revisar y aprobar los pull requests: Integrar los cambios verificados en la rama principal.
 - [ ] Preparar tu explicación técnica: Dominar el motor, las estructuras, los estados, las métricas y las decisiones de diseño.
