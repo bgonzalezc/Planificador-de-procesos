@@ -95,7 +95,7 @@ Nuevo → Listo → Ejecución → Finalizado. Desde Ejecución también a Bloqu
 
 ## 9. Preguntas trampa
 
-**¿Qué pasa si llega un proceso justo cuando termina otro?** La admisión ocurre al inicio del tick siguiente (el fin se registra al final del tick), así que en ese tick entra y se despacha.
+**¿Qué pasa si llega un proceso justo cuando termina otro?** No hay hueco en la CPU. Un proceso que ejecuta su última unidad en el tick `t` finaliza al final de ese tick (fin = t+1). Si otro llega en `t+1`, la admisión lo mete a Listos al inicio de ese tick y el despacho lo pone en CPU en el mismo tick. Verificado: P1 (ll=0, ráfaga 2) y P2 (ll=2) dan Gantt `P1 P1 P2`, sin `--`.
 
 **¿Qué pasa con la CPU si nadie está listo?** Queda ociosa (`IDLE`) y el Gantt marca `--`.
 
