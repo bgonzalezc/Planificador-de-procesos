@@ -1,29 +1,28 @@
-"""Planificación por prioridades  ->  responsable: Francisco.
+"""Planificación por prioridades APROPIATIVA.
 
-ERROR 404: CODE NOT FOUND
-    \\(°o°)/   "Este algoritmo tiene prioridad máxima...
-      |_|      ...pero nadie lo ha escrito todavía."
-      / \\
-
-Qué hay que hacer (ver todo.md, secciones 2 y 3):
-  - Heredar de `Planificador` (algoritmos/base.py).
-  - Elegir una variante (apropiativa o no) y documentarla en el README:
-    qué valor es MAYOR prioridad, desempates, riesgo de inanición, envejecimiento.
-  - Usar `p.prioridad` (ya existe en Proceso). Desempate sugerido por el
-    enunciado: (prioridad, llegada, clave_natural(pid)).
-  - Si es apropiativo: `apropiativo = True` y implementar `debe_expropiar`.
-  - Registrarlo en `algoritmos/__init__.py` (diccionario ALGORITMOS).
+Criterio: MAYOR valor numérico de `prioridad` = MAYOR prioridad.
+Desempate: llegada más temprana y luego menor identificador (natural: P2 < P10).
+Expropia solo si en la cola hay un proceso de prioridad ESTRICTAMENTE mayor.
+Sin envejecimiento: ver README (riesgo de inanición).
 """
+from typing import List
+
+from ..constantes import clave_natural
+from ..modelos import Proceso
 from .base import Planificador
 
 
 class PlanificadorPrioridad(Planificador):
     nombre = "PRIORIDAD"
+    apropiativo = True
+    muestra_prioridad = True
 
-    def __init__(self):
-        raise NotImplementedError(
-            "404 - Code not found: las prioridades aún no existen. "
-            "Pregúntale a Francisco :)")
+    @staticmethod
+    def _clave(p: Proceso):
+        return (-p.prioridad, p.llegada, clave_natural(p.pid))
 
-    def seleccionar(self, listos):
-        raise NotImplementedError("404 - Code not found (Francisco)")
+    def seleccionar(self, listos: List[Proceso]) -> Proceso:
+        return min(listos, key=self._clave)
+
+    def debe_expropiar(self, en_ejecucion: Proceso, listos: List[Proceso]) -> bool:
+        return self.seleccionar(listos).prioridad > en_ejecucion.prioridad

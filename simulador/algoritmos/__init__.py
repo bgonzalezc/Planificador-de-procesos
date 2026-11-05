@@ -5,6 +5,7 @@ algoritmo nuevo, registrarlo aquí y agregar su opción en la consola.
 """
 from .base import Planificador
 from .fifo import PlanificadorFIFO
+from .prioridad import PlanificadorPrioridad
 from .round_robin import PlanificadorRoundRobin
 from .sjf import PlanificadorSJF
 from .srtf import PlanificadorSRTF
@@ -14,7 +15,9 @@ ALGORITMOS = {
     "SJF": PlanificadorSJF,
     "SRTF": PlanificadorSRTF,
     "RR": PlanificadorRoundRobin,
+    "PRIORIDAD": PlanificadorPrioridad,
 }
 
 __all__ = ["Planificador", "ALGORITMOS", "PlanificadorFIFO",
-           "PlanificadorSJF", "PlanificadorSRTF", "PlanificadorRoundRobin"]
+           "PlanificadorSJF", "PlanificadorSRTF", "PlanificadorRoundRobin",
+                      "PlanificadorPrioridad"]
