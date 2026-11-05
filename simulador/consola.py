@@ -22,7 +22,7 @@ class AppConsola:
  10. Ver última simulación
  11. Cargar caso de prioridades (10 procesos, mayor valor = mayor prioridad)
  12. Ayuda: lenguaje e instrucciones de uso
- 13. Ejecutar simulación por Prioridades (apropiativa)
+ 13. Ejecutar simulación por Prioridades (no apropiativa)
  0. Salir
 """
 
